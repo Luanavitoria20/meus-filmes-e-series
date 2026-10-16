@@ -1,1 +1,771 @@
 
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineLuna ✨ | Filmes e Séries</title>
+
+  <style>
+    :root {
+      --bg: #100b18;
+      --panel: #1b1228;
+      --panel2: #251936;
+      --purple: #a78bfa;
+      --pink: #f0abfc;
+      --text: #f8f4ff;
+      --muted: #b7a9c9;
+      --border: #38264c;
+      --danger: #fb7185;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(ellipse at top, #33204b 0%, transparent 45%),
+        var(--bg);
+      color: var(--text);
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    header {
+      padding: 28px 7%;
+      border-bottom: 1px solid var(--border);
+      background: #100b18d9;
+    }
+
+    .top {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      margin: 0;
+      font-size: 27px;
+      letter-spacing: -1px;
+    }
+
+    .logo span {
+      color: var(--pink);
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin: 7px 0 0;
+      font-size: 14px;
+    }
+
+    .tag {
+      border: 1px solid #68478b;
+      padding: 9px 13px;
+      border-radius: 30px;
+      color: var(--pink);
+      font-size: 13px;
+    }
+
+    main {
+      width: min(1200px, 90%);
+      margin: 32px auto 60px;
+    }
+
+    .welcome {
+      padding: 30px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: linear-gradient(120deg, #28183c, #191124);
+      margin-bottom: 25px;
+    }
+
+    .welcome h2 {
+      margin: 0 0 12px;
+      font-size: clamp(25px, 4vw, 36px);
+    }
+
+    .welcome h2 span {
+      color: var(--pink);
+    }
+
+    .welcome p {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+
+    .stats {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .stat {
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: #ffffff09;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .stat strong {
+      color: var(--text);
+      font-size: 18px;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .section-title {
+      font-size: 21px;
+      margin: 28px 0 16px;
+    }
+
+    .form-panel {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      background: var(--panel);
+      margin-bottom: 28px;
+    }
+
+    .form-panel h3 {
+      margin-top: 0;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    input, select {
+      background: #100b18;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      width: 100%;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--purple);
+    }
+
+    .primary {
+      border: 0;
+      border-radius: 10px;
+      padding: 13px 18px;
+      color: #180d23;
+      font-weight: bold;
+      background: linear-gradient(100deg, var(--purple), var(--pink));
+    }
+
+    .primary:hover {
+      filter: brightness(1.08);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .search {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 15px 0 22px;
+    }
+
+    .filter {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: var(--panel);
+      color: var(--muted);
+    }
+
+    .filter.active {
+      background: var(--purple);
+      color: #190e23;
+      border-color: var(--purple);
+      font-weight: bold;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      min-width: 0;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      transition: transform .2s, border-color .2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: #8b5cc4;
+    }
+
+    .poster {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      background: linear-gradient(145deg, #49305f, #20132f 60%, #6c376f);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .poster img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .poster-placeholder {
+      font-size: 54px;
+    }
+
+    .type-label {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #100b18d9;
+      border: 1px solid #ffffff2a;
+      border-radius: 20px;
+      padding: 6px 9px;
+      font-size: 11px;
+      z-index: 1;
+    }
+
+    .card-body {
+      padding: 14px;
+    }
+
+    .card h3 {
+      margin: 0 0 7px;
+      font-size: 16px;
+      overflow-wrap: anywhere;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      min-height: 19px;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .small-btn {
+      flex: 1;
+      padding: 9px 6px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--panel2);
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .small-btn.favorite {
+      color: var(--pink);
+    }
+
+    .small-btn.delete {
+      color: var(--danger);
+    }
+
+    .empty {
+      padding: 42px 15px;
+      text-align: center;
+      border: 1px dashed #5b426f;
+      border-radius: 18px;
+      color: var(--muted);
+      grid-column: 1 / -1;
+    }
+
+    .empty .emoji {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 28px 15px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    #notice {
+      min-height: 20px;
+      margin: 12px 0 0;
+      color: var(--pink);
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      header {
+        padding: 22px 5%;
+      }
+
+      main {
+        width: 92%;
+        margin-top: 22px;
+      }
+
+      .welcome {
+        padding: 22px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .card-body {
+        padding: 11px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="top">
+      <div>
+        <h1 class="logo">🍿 Cine<span>Luna</span></h1>
+        <p class="subtitle">Seu cantinho de filmes e séries favoritos ✨</p>
+      </div>
+      <div class="tag">🎬 Meu catálogo pessoal</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="welcome">
+      <h2>Uma história para cada <span>momento.</span> 💜</h2>
+      <p>
+        Guarde os títulos que ama, descubra o que assistir depois
+        e monte sua própria coleção de histórias.
+      </p>
+
+      <div class="stats">
+        <div class="stat">
+          <strong id="totalCount">0</strong>
+          títulos salvos
+        </div>
+        <div class="stat">
+          <strong id="movieCount">0</strong>
+          🎬 filmes
+        </div>
+        <div class="stat">
+          <strong id="seriesCount">0</strong>
+          📺 séries
+        </div>
+        <div class="stat">
+          <strong id="favoriteCount">0</strong>
+          💗 favoritos
+        </div>
+      </div>
+    </section>
+
+    <h2 class="section-title">✨ Adicionar à coleção</h2>
+
+    <section class="form-panel">
+      <h3>🎞️ Novo título</h3>
+
+      <form id="titleForm">
+        <div class="form-grid">
+          <div class="field full">
+            <label for="title">Nome do filme ou série *</label>
+            <input id="title" maxlength="100"
+              placeholder="Ex.: Harry Potter, Stranger Things..."
+              required>
+          </div>
+
+          <div class="field">
+            <label for="kind">Categoria *</label>
+            <select id="kind" required>
+              <option value="Filme">🎬 Filme</option>
+              <option value="Série">📺 Série</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="genre">Gênero</label>
+            <select id="genre">
+              <option value="Não informado">Escolha um gênero</option>
+              <option>Ação</option>
+              <option>Aventura</option>
+              <option>Comédia</option>
+              <option>Drama</option>
+              <option>Fantasia</option>
+              <option>Ficção científica</option>
+              <option>Romance</option>
+              <option>Terror</option>
+              <option>Suspense</option>
+              <option>Animação</option>
+              <option>Documentário</option>
+              <option>Outro</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="year">Ano de lançamento</label>
+            <input id="year" type="number" min="1888" max="2100"
+              placeholder="Ex.: 2025">
+          </div>
+
+          <div class="field">
+            <label for="poster">Link da capa (opcional)</label>
+            <input id="poster" type="url"
+              placeholder="https://...">
+          </div>
+
+          <div class="field full">
+            <button class="primary" type="submit">
+              ＋ Adicionar à minha coleção
+            </button>
+          </div>
+        </div>
+      </form>
+      <p id="notice" role="status" aria-live="polite"></p>
+    </section>
+
+    <h2 class="section-title">💜 Minha coleção</h2>
+
+    <div class="toolbar">
+      <input class="search" id="search"
+        placeholder="🔎 Pesquisar por título ou gênero...">
+    </div>
+
+    <nav class="filters" aria-label="Filtrar coleção">
+      <button class="filter active" data-filter="Todos">🍿 Todos</button>
+      <button class="filter" data-filter="Filme">🎬 Filmes</button>
+      <button class="filter" data-filter="Série">📺 Séries</button>
+      <button class="filter" data-filter="Favoritos">💗 Favoritos</button>
+    </nav>
+
+    <section class="grid" id="catalog"></section>
+  </main>
+
+  <footer>
+    💜 Feito com carinho, café e muitas histórias. ✨<br>
+    <span>CineLuna · Minha coleção pessoal 🍿</span>
+  </footer>
+
+  <script>
+    const STORAGE_KEY = 'cineluna-catalog-v1';
+
+    let titles = [];
+
+    try {
+      titles = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      if (!Array.isArray(titles)) titles = [];
+    } catch {
+      titles = [];
+    }
+
+    let activeFilter = 'Todos';
+
+    const form = document.getElementById('titleForm');
+    const catalog = document.getElementById('catalog');
+    const search = document.getElementById('search');
+    const notice = document.getElementById('notice');
+
+    function saveTitles() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(titles));
+        return true;
+      } catch {
+        notice.textContent =
+          'Não foi possível salvar neste navegador. Verifique as configurações.';
+        return false;
+      }
+    }
+
+    function updateStats() {
+      document.getElementById('totalCount').textContent = titles.length;
+      document.getElementById('movieCount').textContent =
+        titles.filter(item => item.kind === 'Filme').length;
+      document.getElementById('seriesCount').textContent =
+        titles.filter(item => item.kind === 'Série').length;
+      document.getElementById('favoriteCount').textContent =
+        titles.filter(item => item.favorite).length;
+    }
+
+    function makeButton(label, className, handler, ariaLabel) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = className;
+      button.textContent = label;
+      button.setAttribute('aria-label', ariaLabel);
+      button.addEventListener('click', handler);
+      return button;
+    }
+
+    function createCard(item) {
+      const card = document.createElement('article');
+      card.className = 'card';
+
+      const poster = document.createElement('div');
+      poster.className = 'poster';
+
+      const placeholder = document.createElement('span');
+      placeholder.className = 'poster-placeholder';
+      placeholder.textContent = item.kind === 'Filme' ? '🎬' : '📺';
+      poster.appendChild(placeholder);
+
+      if (item.poster) {
+        const image = document.createElement('img');
+        image.src = item.poster;
+        image.alt = 'Capa de ' + item.title;
+        image.loading = 'lazy';
+
+        image.addEventListener('load', () => {
+          placeholder.hidden = true;
+        });
+
+        image.addEventListener('error', () => {
+          image.remove();
+          placeholder.hidden = false;
+        });
+
+        poster.appendChild(image);
+      }
+
+      const badge = document.createElement('span');
+      badge.className = 'type-label';
+      badge.textContent = item.kind === 'Filme' ? '🎬 FILME' : '📺 SÉRIE';
+      poster.appendChild(badge);
+
+      const body = document.createElement('div');
+      body.className = 'card-body';
+
+      const heading = document.createElement('h3');
+      heading.textContent = item.title;
+
+      const meta = document.createElement('p');
+      meta.className = 'meta';
+      const details = [];
+      if (item.year) details.push(item.year);
+      if (item.genre && item.genre !== 'Não informado') {
+        details.push(item.genre);
+      }
+      meta.textContent = details.join(' · ') || 'Um novo título na coleção';
+
+      const actions = document.createElement('div');
+      actions.className = 'card-actions';
+
+      const favoriteButton = makeButton(
+        item.favorite ? '💗 Favorito' : '🤍 Favoritar',
+        item.favorite ? 'small-btn favorite' : 'small-btn',
+        () => {
+          item.favorite = !item.favorite;
+          saveTitles();
+          render();
+        },
+        item.favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'
+      );
+
+      const deleteButton = makeButton(
+        '🗑️ Excluir',
+        'small-btn delete',
+        () => {
+          if (confirm('Excluir "' + item.title + '" da sua coleção?')) {
+            titles = titles.filter(title => title.id !== item.id);
+            saveTitles();
+            render();
+            notice.textContent = 'Título removido da coleção.';
+          }
+        },
+        'Excluir ' + item.title
+      );
+
+      actions.append(favoriteButton, deleteButton);
+      body.append(heading, meta, actions);
+      card.append(poster, body);
+
+      return card;
+    }
+
+    function render() {
+      catalog.replaceChildren();
+
+      const query = search.value.trim().toLocaleLowerCase('pt-BR');
+
+      const filtered = titles.filter(item => {
+        const matchesFilter =
+          activeFilter === 'Todos' ||
+          (activeFilter === 'Favoritos' && item.favorite) ||
+          item.kind === activeFilter;
+
+        const matchesSearch =
+          item.title.toLocaleLowerCase('pt-BR').includes(query) ||
+          (item.genre || '').toLocaleLowerCase('pt-BR').includes(query);
+
+        return matchesFilter && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'empty';
+
+        const emoji = document.createElement('div');
+        emoji.className = 'emoji';
+        emoji.textContent = titles.length === 0 ? '🍿' : '🔎';
+
+        const message = document.createElement('h3');
+        message.textContent = titles.length === 0
+          ? 'Sua coleção começa aqui!'
+          : 'Nenhum título encontrado';
+
+        const description = document.createElement('p');
+        description.textContent = titles.length === 0
+          ? 'Adicione seu primeiro filme ou série no formulário acima. 💜'
+          : 'Experimente outra pesquisa ou categoria.';
+
+        empty.append(emoji, message, description);
+        catalog.appendChild(empty);
+      } else {
+        filtered.forEach(item => catalog.appendChild(createCard(item)));
+      }
+
+      updateStats();
+    }
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+
+      const title = document.getElementById('title').value.trim();
+      const kind = document.getElementById('kind').value;
+      const genre = document.getElementById('genre').value;
+      const year = document.getElementById('year').value;
+      const poster = document.getElementById('poster').value.trim();
+
+      if (!title) {
+        notice.textContent = 'Digite o nome do filme ou da série.';
+        return;
+      }
+
+      if (year && (Number(year) < 1888 || Number(year) > 2100)) {
+        notice.textContent = 'Digite um ano válido.';
+        return;
+      }
+
+      titles.unshift({
+        id: Date.now().toString() + Math.random().toString(16).slice(2),
+        title,
+        kind,
+        genre,
+        year,
+        poster,
+        favorite: false
+      });
+
+      if (saveTitles()) {
+        form.reset();
+        activeFilter = 'Todos';
+        document.querySelectorAll('.filter').forEach(button => {
+          button.classList.toggle('active', button.dataset.filter === 'Todos');
+        });
+        notice.textContent = '✨ Título adicionado à sua coleção!';
+        render();
+      }
+    });
+
+    search.addEventListener('input', render);
+
+    document.querySelectorAll('.filter').forEach(button => {
+      button.addEventListener('click', () => {
+        activeFilter = button.dataset.filter;
+
+        document.querySelectorAll('.filter').forEach(filterButton => {
+          filterButton.classList.toggle(
+            'active',
+            filterButton === button
+          );
+        });
+
+        render();
+      });
+    });
+
+    render();
+  </script>
+</body>
+</html>
